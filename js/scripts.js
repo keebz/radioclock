@@ -1,3 +1,4 @@
+var wait = false;
 //Check and display time
 function startTime() {
     var today=new Date();
@@ -38,34 +39,32 @@ function countDown(m,s) {
 
 //timer logic for all on-air segments
 function segmentBlock(seg1, seg2, seg3, seg4) {
-    times = [seg1, seg2, seg3, seg4];
-    var currentBlock = 0;
-    if (currentBlock < 3) {
-        minutes = times[currentBlock];
-        segmentTimer(minutes);
-        currentBlock = currentBlock + 1; //<<< why doesn't this loop back and start the next seg when the previous is completed????
-    }; //else if (currentBlock === 3) {
-    //     minutes = times[currentBlock];
-    //     segmentTimer(minutes);
-    //     currentBlock = 0;
-    //     return;
-    // };
+    var times = [seg1, seg2, seg3, seg4];
+    var wait = false
+    for (currentBlock = 0; currentBlock <= 3; currentBlock++) {
+        if (wait === false){
+            wait = true;   
+            minutes = times[currentBlock];
+            segmentTimer(minutes); 
+        }
+        //<<< why doesn't this loop back and start the next seg when the previous is completed????
+    } 
 }
 
 //timer logic for off air breaks
 function segmentTimer(minutes) {
-    var fiveMinutes = 2 * minutes,
+    var currentMinutes = 2 * minutes,
         display = document.getElementById("seg"),
         mins, seconds;
     var speed = setInterval(function() {
-        mins = parseInt(fiveMinutes / 60)
-        seconds = parseInt(fiveMinutes % 60);
+        mins = parseInt(currentMinutes / 60)
+        seconds = parseInt(currentMinutes % 60);
         seconds = seconds < 10 ? "0" + seconds : seconds;
         
         display.innerHTML = mins + ":" + seconds;
-        fiveMinutes--;
+        currentMinutes--;
         
-        if (fiveMinutes < 0) {
+        if (currentMinutes < 0) {
             clearInterval(speed);
             breakTimer();
         }
@@ -87,6 +86,7 @@ function breakTimer() {
         
         if (twoMinutes < 0) {
             clearInterval(speed);
+            return wait = false;
         }
     }, 1000);
 }
