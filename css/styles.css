@@ -1,0 +1,27 @@
+#txt {
+	color: #2C2C2C;
+	font-size: 60pt;
+	text-align: center;
+
+}
+
+#live {
+	color: red;
+	font-size: 60pt;
+	text-align: center;
+
+}
+
+#notLive {
+	color: #2C2C2C;
+	font-size: 60pt;
+	text-align: center;
+
+}
+
+#timeLeft {
+	color: red;
+	font-size: 30pt;
+	text-align: center;
+
+}
