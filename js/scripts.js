@@ -36,61 +36,75 @@ function countDown(m,s) {
     document.getElementById('timeLeft').innerHTML = "Time Left: " + mLeft + ":" + sLeft;
 }
 
+function segmentBlock(seg1, seg2, seg3, seg4) {
+    times = [seg1, seg2, seg3, seg4];
+    var currentBlock = 0;
+    if (currentBlock < 3) {
+        minutes = times[currentBlock];
+        segmentTimer(minutes);
+        currentBlock = currentBlock + 1;
+    } else if (currentBlock === 3) {
+        minutes = times[currentBlock];
+        segmentTimer(minutes);
+        currentBlock = 0;
+        return;
+    };
+}
+
 //Seg 1 timer 5Min
-    function fiveMinTimer() {
-        var fiveMinutes = 60 * 5,
-            display = document.getElementById("seg"),
-            mins, seconds;
-        var speed = setInterval(function() {
-            mins = parseInt(fiveMinutes / 60)
-            seconds = parseInt(fiveMinutes % 60);
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-            
-            display.innerHTML = mins + ":" + seconds;
-            fiveMinutes--;
-            
-            if (fiveMinutes < 0) {
-                clearInterval(speed);
-                twoMinTimer();
-            }
-        }, 1000);
-    }
+function segmentTimer(minutes) {
+    var fiveMinutes = 2 * minutes,
+        display = document.getElementById("seg"),
+        mins, seconds;
+    var speed = setInterval(function() {
+        mins = parseInt(fiveMinutes / 60)
+        seconds = parseInt(fiveMinutes % 60);
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        
+        display.innerHTML = mins + ":" + seconds;
+        fiveMinutes--;
+        
+        if (fiveMinutes < 0) {
+            clearInterval(speed);
+            breakTimer();
+        }
+    }, 1000);
+}
 
-    //break timer 2Min
-    function twoMinTimer() {
-        var twoMinutes = 60 * 2,
-            display = document.getElementById("break"),
-            mins, seconds;
-        var speed = setInterval(function() {
-            mins = parseInt(twoMinutes / 60)
-            seconds = parseInt(twoMinutes % 60);
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-            
-            display.innerHTML = mins + ":" + seconds;
-            twoMinutes--;
-            
-            if (twoMinutes < 0) {
-                clearInterval(speed);
-                fifteenMinTimer();
-            }
-        }, 1000);
-    }
+//break timer 2Min
+function breakTimer() {
+    var twoMinutes = 2 * 2,
+        display = document.getElementById("break"),
+        mins, seconds;
+    var speed = setInterval(function() {
+        mins = parseInt(twoMinutes / 60)
+        seconds = parseInt(twoMinutes % 60);
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        
+        display.innerHTML = mins + ":" + seconds;
+        twoMinutes--;
+        
+        if (twoMinutes < 0) {
+            clearInterval(speed);
+        }
+    }, 1000);
+}
 
-    function fifteenMinTimer() {
-        var fifteenMinutes = 60 * 15,
-            display = document.getElementById("seg"),
-            mins, seconds;
-        var speed = setInterval(function() {
-            mins = parseInt(fifteenMinutes / 60)
-            seconds = parseInt(fifteenMinutes % 60);
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-            
-            display.innerHTML = mins + ":" + seconds;
-            fifteenMinutes--;
-            
-            if (fifteenMinutes < 0) {
-                clearInterval(speed);
-                twoMinTimer();
-            }
-        }, 1000);
-    }
+// function fifteenMinTimer() {
+//     var fifteenMinutes = 60 * 15,
+//         display = document.getElementById("seg"),
+//         mins, seconds;
+//     var speed = setInterval(function() {
+//         mins = parseInt(fifteenMinutes / 60)
+//         seconds = parseInt(fifteenMinutes % 60);
+//         seconds = seconds < 10 ? "0" + seconds : seconds;
+        
+//         display.innerHTML = mins + ":" + seconds;
+//         fifteenMinutes--;
+        
+//         if (fifteenMinutes < 0) {
+//             clearInterval(speed);
+//             twoMinTimer();
+//         }
+//     }, 1000);
+//}
