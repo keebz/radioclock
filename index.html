@@ -25,6 +25,7 @@ function areWeLive(h, m, s) {
     if (h>=11 && h<12) {
         document.getElementById('live').innerHTML = "ON AIR!";
         countDown(m,s);
+        //startTimer();
     }
     else {
         document.getElementById('live').innerHTML = "";
@@ -40,32 +41,33 @@ function countDown(m,s) {
     document.getElementById('timeLeft').innerHTML = "Time Left: " + mLeft + ":" + sLeft;
 }
 
-// function startTimer() {
-//     var fiveMinutes = 60 * 5,
-//         display = document.getElementById("time"),
-//         mins, seconds;
-//     setInterval(function() {
-//         mins = parseInt(fiveMinutes / 60)
-//         seconds = parseInt(fiveMinutes % 60);
-//         seconds = seconds < 10 ? "0" + seconds : seconds;
-
-//         display.innerHTML = mins + ":" + seconds;
-//         fiveMinutes--;
-
-//         if (fiveMinutes < 0) {
-//             fiveMinutes = 60 * 5;
-//         }
-//     }, 1000);
-// }
+function startTimer() {
+    var fiveMinutes = 60 * 5,
+        display = document.getElementById("time"),
+        mins, seconds;
+    setInterval(function() {
+        mins = parseInt(fiveMinutes / 60)
+        seconds = parseInt(fiveMinutes % 60);
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        
+        display.innerHTML = mins + ":" + seconds;
+        fiveMinutes--;
+        
+        if (fiveMinutes < 0) {
+            fiveMinutes = 60 * 5;
+        }
+    }, 1000);
+}
 
 </script>
 </head>
 
-<body onload="startTime()">
+<body onload="startTime(); startTimer();">
 <div id="live"></div>
 <div id="notLive"></div>
 <div id="txt"></div>
 <div id="timeLeft"></div>
+<div id="time"></div>
 
 </body>
 </html>
