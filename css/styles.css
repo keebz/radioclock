@@ -21,6 +21,7 @@
 
 #timeLeft {
 	color: red;
+	font-weight: bold;
 	font-size: 30pt;
 	text-align: center;
 
