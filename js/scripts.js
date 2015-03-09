@@ -38,11 +38,10 @@ function countDown(m,s) {
 
 //Seg 1 timer 5Min
     function fiveMinTimer() {
-        var speed = 1000
         var fiveMinutes = 5 * 1,
             display = document.getElementById("seg1"),
             mins, seconds;
-        setInterval(function() {
+        var speed = setInterval(function() {
             mins = parseInt(fiveMinutes / 60)
             seconds = parseInt(fiveMinutes % 60);
             seconds = seconds < 10 ? "0" + seconds : seconds;
@@ -51,7 +50,8 @@ function countDown(m,s) {
             fiveMinutes--;
             
             if (fiveMinutes < 0) {
-                display = "";
+                clearInterval(speed);
+                twoMinTimer();
             }
         }, 1000);
     }
