@@ -38,8 +38,8 @@ function countDown(m,s) {
 
 //Seg 1 timer 5Min
     function fiveMinTimer() {
-        var fiveMinutes = 5 * 1,
-            display = document.getElementById("seg1"),
+        var fiveMinutes = 60 * 5,
+            display = document.getElementById("seg"),
             mins, seconds;
         var speed = setInterval(function() {
             mins = parseInt(fiveMinutes / 60)
@@ -61,7 +61,7 @@ function countDown(m,s) {
         var twoMinutes = 60 * 2,
             display = document.getElementById("break"),
             mins, seconds;
-        setInterval(function() {
+        var speed = setInterval(function() {
             mins = parseInt(twoMinutes / 60)
             seconds = parseInt(twoMinutes % 60);
             seconds = seconds < 10 ? "0" + seconds : seconds;
@@ -70,7 +70,27 @@ function countDown(m,s) {
             twoMinutes--;
             
             if (twoMinutes < 0) {
-                twoMinutes = 60 * 2;
+                clearInterval(speed);
+                fifteenMinTimer();
+            }
+        }, 1000);
+    }
+
+    function fifteenMinTimer() {
+        var fifteenMinutes = 60 * 15,
+            display = document.getElementById("seg"),
+            mins, seconds;
+        var speed = setInterval(function() {
+            mins = parseInt(fifteenMinutes / 60)
+            seconds = parseInt(fifteenMinutes % 60);
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            
+            display.innerHTML = mins + ":" + seconds;
+            fifteenMinutes--;
+            
+            if (fifteenMinutes < 0) {
+                clearInterval(speed);
+                twoMinTimer();
             }
         }, 1000);
     }
