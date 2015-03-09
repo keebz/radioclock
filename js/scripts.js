@@ -36,22 +36,23 @@ function countDown(m,s) {
     document.getElementById('timeLeft').innerHTML = "Time Left: " + mLeft + ":" + sLeft;
 }
 
+//timer logic for all on-air segments
 function segmentBlock(seg1, seg2, seg3, seg4) {
     times = [seg1, seg2, seg3, seg4];
     var currentBlock = 0;
     if (currentBlock < 3) {
         minutes = times[currentBlock];
         segmentTimer(minutes);
-        currentBlock = currentBlock + 1;
-    } else if (currentBlock === 3) {
-        minutes = times[currentBlock];
-        segmentTimer(minutes);
-        currentBlock = 0;
-        return;
-    };
+        currentBlock = currentBlock + 1; //<<< why doesn't this loop back and start the next seg when the previous is completed????
+    }; //else if (currentBlock === 3) {
+    //     minutes = times[currentBlock];
+    //     segmentTimer(minutes);
+    //     currentBlock = 0;
+    //     return;
+    // };
 }
 
-//Seg 1 timer 5Min
+//timer logic for off air breaks
 function segmentTimer(minutes) {
     var fiveMinutes = 2 * minutes,
         display = document.getElementById("seg"),
