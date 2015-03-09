@@ -41,7 +41,9 @@ function countDown(m,s) {
     document.getElementById('timeLeft').innerHTML = "Time Left: " + mLeft + ":" + sLeft;
 }
 
-function startTimer() {
+//Seg 1 timer 5Min
+function fiveMinTimer() {
+    var speed = 1000
     var fiveMinutes = 60 * 5,
         display = document.getElementById("time"),
         mins, seconds;
@@ -54,7 +56,26 @@ function startTimer() {
         fiveMinutes--;
         
         if (fiveMinutes < 0) {
-            fiveMinutes = 60 * 5;
+            twoMinTimer();
+        }
+    }, 1000);
+}
+
+//break timer 2Min
+function twoMinTimer() {
+    var twoMinutes = 60 * 2,
+        display = document.getElementById("time"),
+        mins, seconds;
+    setInterval(function() {
+        mins = parseInt(twoMinutes / 60)
+        seconds = parseInt(twoMinutes % 60);
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        
+        display.innerHTML = mins + ":" + seconds;
+        twoMinutes--;
+        
+        if (twoMinutes < 0) {
+            twoMinutes = 60 * 2;
         }
     }, 1000);
 }
@@ -62,7 +83,7 @@ function startTimer() {
 </script>
 </head>
 
-<body onload="startTime(); startTimer();">
+<body onload="startTime(); fiveMinTimer();">
 <div id="live"></div>
 <div id="notLive"></div>
 <div id="txt"></div>
