@@ -10,7 +10,7 @@
         f = twelveHourConversion(h, amPm);
         m = checkTime(m);
         s = checkTime(s);
-        areWeLive(h,m,s,amPm);
+        areWeLive(f[0],m,s,f[1]);
         document.getElementById('txt').innerHTML = f[0]+":"+m+":"+s+f[1];
         var t = setTimeout(function(){startTime()},500);
     }
@@ -30,10 +30,9 @@
     }
     //Check and display if show is live or not
     function areWeLive(h, m, s, amPm) {
-        if (h>=11 && amPm === "am") {
+        if (h < 12 && amPm === " am") {
             document.getElementById('live').innerHTML = "ON AIR!";
             countDown(m,s);
-            //startTimer();
         }
         else {
             document.getElementById('live').innerHTML = "";
@@ -49,17 +48,16 @@
         document.getElementById('timeLeft').innerHTML = "Time Left: " + mLeft + ":" + sLeft;
     }
 
-    //timer logic for all on-air segments
-    function segmentBlock(seg1, seg2, seg3, seg4) {
-        var times = [seg1, seg2, seg3, seg4];
-        var wait = false
-        for (currentBlock = 0; currentBlock <= 3; currentBlock++) {  
-                minutes = times[currentBlock];
-                segmentTimer(minutes); //<<< why doesn't this loop back and start the next seg when the previous is completed????
-        } 
+    function segments(seg1,seg2,seg3,seg4) {
+        var pause = false;
+        var commBreak = 2
+        var allSegments = [seg1, commBreak, seg2, commBreak, seg3, commBreak, seg4];
+        for (x = 0; x <= 6; x++) {
+            segmentTimer(allSegments[x]);
+        }
     }
 
-    //timer logic for off air breaks
+    // //timer logic for off air breaks
     function segmentTimer(minutes) {
         var currentMinutes = 2 * minutes,
             display = document.getElementById("seg"),
@@ -74,31 +72,13 @@
             
             if (currentMinutes < 0) {
                 clearInterval(speed);
-                breakTimer();
             }
         }, 1000);
     }
 
-    //break timer 2Min
-    function breakTimer() {
-        var twoMinutes = 2 * 2,
-            display = document.getElementById("break"),
-            mins, seconds;
-        var speed = setInterval(function() {
-            mins = parseInt(twoMinutes / 60)
-            seconds = parseInt(twoMinutes % 60);
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-            
-            display.innerHTML = mins + ":" + seconds;
-            twoMinutes--;
-            
-            if (twoMinutes < 0) {
-                clearInterval(speed);
-            }
-        }, 1000);
-    }
 $(document).ready(function(){
     startTime();
-    
+    segments(5,15,10,5);
+
 
 });
