@@ -15,18 +15,18 @@ $(document).ready(function(){
 //check time & format
         console.log(zone);
         f = twelveHourConversion(h, amPm);
-        hr = timeZone(f[0],TZ);
+        //hr = timeZone(f[0],TZ);
         m = checkTime(m);
         s = checkTime(s);
 
-        areWeLive(hr,m,s,f[1]);
+        areWeLive(f[0],m,s,f[1]);
         setSegmentTimer(m,s,seg1,seg2,seg3);
 
-        document.getElementById('txt').innerHTML = hr+":"+m+":"+s+f[1];
+        document.getElementById('txt').innerHTML = f[0]+":"+m+":"+s+f[1];
         var t = setTimeout(function(){startTime()},500);
     }
 //adjust for timezone
-    function timeZone(hr,TZ) {
+    /*function timeZone(hr,TZ) {
         zones = ["e","c","m","p"];
         adjustments = [1,0,1,2];
         if (TZ === zones[0]){
@@ -41,7 +41,7 @@ $(document).ready(function(){
             hr = hr + 2;
             return hr; 
         };
-    }
+    }*/
 
 // add zero in front of numbers < 10
     function checkTime(i) {
@@ -60,7 +60,7 @@ $(document).ready(function(){
     
 //Check and display if show is live or not
     function areWeLive(h, m, s, amPm) {
-        if (h < 12 && amPm === " am") {
+        if (h < 12 && amPm === " am" && h > 11) {
             document.getElementById('live').innerHTML = "ON AIR!";
             countDown(m,s);
         }
