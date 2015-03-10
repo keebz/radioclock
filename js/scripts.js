@@ -1,39 +1,36 @@
-$(document).ready(function(){
-    var wait = false;
-    //Check and display time
+//Check and display time
     function startTime() {
         var today=new Date();
         var h=today.getHours();
         var m=today.getMinutes();
         var s=today.getSeconds();
-        var amOrPm = " am"
-        //define am or pm
-        amPm(h, amOrPm);
-
+        var amPm = " am"
+        
+    //check time & format
+        f = twelveHourConversion(h, amPm);
         m = checkTime(m);
         s = checkTime(s);
-        areWeLive(h,m,s,amOrPm);
-        document.getElementById('txt').innerHTML = h+":"+m+":"+s+amOrPm;
+        areWeLive(h,m,s,amPm);
+        document.getElementById('txt').innerHTML = f[0]+":"+m+":"+s+f[1];
         var t = setTimeout(function(){startTime()},500);
-    }
-
-    function amPm(h, amOrPm) {
-        if (h > 12) {
-            h = h - 12;
-            amOrPm === " pm";
-            return amOrPm;
-        }else{
-            return amOrPm === "blah";
-        };
     }
     // add zero in front of numbers < 10
     function checkTime(i) {
         if (i<10) {i = "0" + i};  
         return i;
     }
+
+    //convert for 12 hour format
+    function twelveHourConversion(h, amPm) {
+        if (h > 12) {
+            h = h - 12;
+            amPm = " pm";
+        };
+            return [h, amPm];
+    }
     //Check and display if show is live or not
-    function areWeLive(h, m, s, amOrPm) {
-        if (h>=11 && amOrPm === "am") {
+    function areWeLive(h, m, s, amPm) {
+        if (h>=11 && amPm === "am") {
             document.getElementById('live').innerHTML = "ON AIR!";
             countDown(m,s);
             //startTimer();
@@ -56,13 +53,9 @@ $(document).ready(function(){
     function segmentBlock(seg1, seg2, seg3, seg4) {
         var times = [seg1, seg2, seg3, seg4];
         var wait = false
-        for (currentBlock = 0; currentBlock <= 3; currentBlock++) {
-            if (wait === false){
-                wait = true;   
+        for (currentBlock = 0; currentBlock <= 3; currentBlock++) {  
                 minutes = times[currentBlock];
-                segmentTimer(minutes); 
-            }
-            //<<< why doesn't this loop back and start the next seg when the previous is completed????
+                segmentTimer(minutes); //<<< why doesn't this loop back and start the next seg when the previous is completed????
         } 
     }
 
@@ -101,8 +94,11 @@ $(document).ready(function(){
             
             if (twoMinutes < 0) {
                 clearInterval(speed);
-                return wait = false;
             }
         }, 1000);
     }
+$(document).ready(function(){
+    startTime();
+    
+
 });
