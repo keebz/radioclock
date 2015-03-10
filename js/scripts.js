@@ -1,26 +1,55 @@
+$(document).ready(function(){
+    startTime(5,15,10,"e");
+
+});
 //Check and display time
-    function startTime() {
+    function startTime(seg1,seg2,seg3,TZ) {
         var today=new Date();
         var h=today.getHours();
         var m=today.getMinutes();
         var s=today.getSeconds();
+        var zone = TZ;
         var amPm = " am"
+
         
-    //check time & format
+//check time & format
+        console.log(zone);
         f = twelveHourConversion(h, amPm);
+        hr = timeZone(f[0],TZ);
         m = checkTime(m);
         s = checkTime(s);
-        areWeLive(f[0],m,s,f[1]);
-        document.getElementById('txt').innerHTML = f[0]+":"+m+":"+s+f[1];
+
+        areWeLive(hr,m,s,f[1]);
+        setSegmentTimer(m,s,seg1,seg2,seg3);
+
+        document.getElementById('txt').innerHTML = hr+":"+m+":"+s+f[1];
         var t = setTimeout(function(){startTime()},500);
     }
-    // add zero in front of numbers < 10
+//adjust for timezone
+    function timeZone(hr,TZ) {
+        zones = ["e","c","m","p"];
+        adjustments = [1,0,1,2];
+        if (TZ === zones[0]){
+            hr = hr - 1;
+            return hr;
+        } else if (TZ === zones[1]){
+            return hr;
+        } else if (TZ === zones[2]) {
+            hr = hr + 1;
+            return hr;
+        } else if (TZ === zones[3]) {
+            hr = hr + 2;
+            return hr; 
+        };
+    }
+
+// add zero in front of numbers < 10
     function checkTime(i) {
         if (i<10) {i = "0" + i};  
         return i;
     }
 
-    //convert for 12 hour format
+//convert for 12 hour format
     function twelveHourConversion(h, amPm) {
         if (h > 12) {
             h = h - 12;
@@ -28,7 +57,8 @@
         };
             return [h, amPm];
     }
-    //Check and display if show is live or not
+    
+//Check and display if show is live or not
     function areWeLive(h, m, s, amPm) {
         if (h < 12 && amPm === " am") {
             document.getElementById('live').innerHTML = "ON AIR!";
@@ -40,7 +70,8 @@
             document.getElementById('timeLeft').innerHTML ="";
         }
     }
-    //display countdown as show approaches the end
+    
+//display countdown as show approaches the end
     function countDown(m,s) {
         var mLeft = 60 - m;  
         var sLeft = (60 - s);
@@ -48,16 +79,29 @@
         document.getElementById('timeLeft').innerHTML = "Time Left: " + mLeft + ":" + sLeft;
     }
 
-    function segments(seg1,seg2,seg3,seg4) {
-        var pause = false;
+    function setSegmentTimer(m,s,seg1,seg2,seg3) {
         var commBreak = 2
-        var allSegments = [seg1, commBreak, seg2, commBreak, seg3, commBreak, seg4];
-        for (x = 0; x <= 6; x++) {
-            segmentTimer(allSegments[x]);
-        }
+        var totalTime = 0
+
+        if (m === totalTime && s === "00") {
+            segmentTimer(seg1);
+            totalTime = totalTime + seg1;
+        } else if (m === totalTime && s === "00") {
+            segmentTimer(commBreak);
+            totalTime = totalTime + commBreak;
+        } else if (m === totalTime && s === "00") {
+            setSegmentTimer(seg2);
+            totalTime = totalTime + seg2;
+        } else if (m === totalTime && s === "00") {
+            segmentTimer(commBreak);
+            totalTime = totalTime + commBreak;
+        } else if (m === totalTime && s === "00") {
+            segmentTimer(seg3);
+        };
+
     }
 
-    // //timer logic for off air breaks
+// //timer logic for off air breaks
     function segmentTimer(minutes) {
         var currentMinutes = 2 * minutes,
             display = document.getElementById("seg"),
@@ -72,13 +116,7 @@
             
             if (currentMinutes < 0) {
                 clearInterval(speed);
+                return false;
             }
         }, 1000);
     }
-
-$(document).ready(function(){
-    startTime();
-    segments(5,15,10,5);
-
-
-});
